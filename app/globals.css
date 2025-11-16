@@ -43,6 +43,24 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+@layer base {
+  :root {
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -51,7 +69,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: #39ae9f;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -112,11 +130,36 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+::-webkit-scrollbar {
+  width: 2px; /* Width of the vertical scrollbar */
+  height: 2px; /* Height of the horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9; /* Background of the scrollbar track */
+  border-radius: 2px; /* Rounded corners for the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3b82f6; /* Color of the scrollbar thumb (blue-500) */
+  border-radius: 4px; /* Rounded corners for the thumb */
+  border: 2px solid #f1f5f9; /* Optional: border to match track */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2563eb; /* Darker blue (blue-600) on hover */
+}
+
+/* Firefox and other browsers supporting standard scrollbar properties */
+html {
+  scrollbar-color: #3b82f6 #f1f5f9; /* thumb color, track color */
+}
+
 @layer base {
-  * {
+  /* * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
-  }
+  } */
 }
