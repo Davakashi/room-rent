@@ -1,10 +1,19 @@
 "use server";
 
 import { hash } from "bcryptjs";
-import { AuthError } from "next-auth";
 
 import { signIn } from "@/app/auth";
 import prisma from "@/lib/prisma";
+
+// Custom AuthError class since next-auth is not installed
+class AuthError extends Error {
+  type: string;
+  constructor(message: string, type: string = "CredentialsSignin") {
+    super(message);
+    this.type = type;
+    this.name = "AuthError";
+  }
+}
 
 export async function handwrittenLogin(data: { email: string; password: string }) {
   try {
