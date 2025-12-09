@@ -26,23 +26,19 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        working-directory: room-rent
         run: npm ci
         env:
           NODE_ENV: production
 
       - name: Run linter
-        working-directory: room-rent
         run: npm run lint
 
       - name: Build project
-        working-directory: room-rent
         run: npm run build
         env:
           NODE_ENV: production
 
       - name: Run unit tests
-        working-directory: room-rent
         run: npm test -- --coverage --passWithNoTests
         env:
           CI: true
@@ -51,7 +47,7 @@ jobs:
         uses: codecov/codecov-action@v3
         if: always()
         with:
-          directory: room-rent/coverage
+          directory: coverage
           fail_ci_if_error: false
 
   notify:
