@@ -3,13 +3,11 @@
  */
 
 import { getToken, removeToken } from '@/lib/auth/token';
+import type { ApiError } from '@/lib/errors/error-handler';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
-export interface ApiError {
-  message: string;
-  status: number;
-}
+export type { ApiError };
 
 /**
  * Custom fetch wrapper that automatically adds JWT token to requests
@@ -49,11 +47,18 @@ async function apiRequest<T>(
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({
-        message: `Server error: ${response.status}`,
+        error: `Server error: ${response.status}`,
+        statusCode: response.status,
       }));
+      
+      // Backend-оос ирсэн алдааны форматыг боловсруулах
       const error: ApiError = {
-        message: errorData.message || `Server error: ${response.status}`,
-        status: response.status,
+        message: errorData.error || errorData.message || `Server error: ${response.status}`,
+        status: errorData.statusCode || response.status,
+        details: errorData.details,
+        path: errorData.path,
+        method: errorData.method,
+        timestamp: errorData.timestamp,
       };
       throw error;
     }
@@ -66,12 +71,30 @@ async function apiRequest<T>(
     
     return {} as T;
   } catch (error: any) {
+    // Authentication алдаа - дахин throw хийх
     if (error.message === 'Authentication required') {
       throw error;
     }
+
+    // Fetch алдаа (сүлжээний асуудал)
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw {
+        message: 'Сүлжээний холболт алдаатай. Интернэт холболтоо шалгана уу.',
+        status: 0,
+        details: { originalError: error.message },
+      } as ApiError;
+    }
+
+    // Аль хэдийн ApiError бол дахин throw
+    if (error && typeof error === 'object' && 'status' in error) {
+      throw error;
+    }
+
+    // Бусад алдаанууд
     throw {
-      message: error.message || 'Network error occurred',
+      message: error?.message || 'Алдаа гарлаа. Дараа дахин оролдоно уу.',
       status: 0,
+      details: { originalError: error?.message },
     } as ApiError;
   }
 }

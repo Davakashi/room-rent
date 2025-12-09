@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/lib/auth/context";
+import { ErrorBoundary } from "@/components/error-boundary";
 
 import "./globals.css";
 
@@ -25,11 +26,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <AuthProvider>
-          <Toaster />
-          {/* <SessionProvider>{children}</SessionProvider> */}
-          {children}
-        </AuthProvider>
+        <ErrorBoundary>
+          <AuthProvider>
+            <Toaster />
+            {/* <SessionProvider>{children}</SessionProvider> */}
+            {children}
+          </AuthProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth/context";
 import { apiPost } from "@/lib/api/client";
+import { formatErrorMessage } from "@/lib/errors/error-handler";
 import GoogleLoginButton from "../button/google-button";
 import TermsDialog from "./terms-modal";
 
@@ -79,7 +80,8 @@ const RegisterForm = () => {
       }
     } catch (error: any) {
       console.error("Signup error:", error);
-      toast.error(error?.message || "Алдаа гарлаа");
+      const errorMessage = formatErrorMessage(error);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
