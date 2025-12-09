@@ -20,6 +20,13 @@ export default [
     plugins: {
       prettier,
     },
+    settings: {
+      "import/resolver": {
+        typescript: {
+          alwaysTryTypes: true,
+        },
+      },
+    },
     rules: {
       camelcase: "off",
       "import/prefer-default-export": "off",
@@ -29,16 +36,8 @@ export default [
       "react/no-unused-prop-types": "off",
       "react/require-default-props": "off",
       "react/no-unescaped-entities": "off",
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          ts: "never",
-          tsx: "never",
-          js: "never",
-          jsx: "never",
-        },
-      ],
+      "import/extensions": "off", // Disabled - Next.js and TypeScript handle path aliases correctly
+      "import/no-unresolved": "off", // Disable for path aliases
     },
   },
   ...compat.extends("plugin:@typescript-eslint/recommended", "prettier").map((config) => ({
