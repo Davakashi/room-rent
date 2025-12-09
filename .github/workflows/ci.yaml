@@ -24,12 +24,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: room-rent/package-lock.json
 
       - name: Install dependencies
         working-directory: room-rent
         run: npm ci
+        env:
+          NODE_ENV: production
 
       - name: Run linter
         working-directory: room-rent
