@@ -1,7 +1,6 @@
 'use client';
 
 import { AlertCircle, X } from 'lucide-react';
-import { useEffect } from 'react';
 import { Button } from './button';
 import type { ApiError } from '@/lib/errors/error-handler';
 import { formatErrorMessage, getErrorDetails, isNetworkError } from '@/lib/errors/error-handler';
