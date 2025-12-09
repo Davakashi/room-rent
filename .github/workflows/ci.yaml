@@ -94,7 +94,7 @@ jobs:
 
       - name: Send email notification (optional)
         uses: dawidd6/action-send-mail@v3
-        if: failure() && secrets.EMAIL_USERNAME != '' && secrets.EMAIL_PASSWORD != '' && secrets.NOTIFICATION_EMAIL != ''
+        if: failure()
         continue-on-error: true
         with:
           server_address: smtp.gmail.com
