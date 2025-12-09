@@ -18,9 +18,9 @@ async function apiRequest<T>(
 ): Promise<T> {
   const token = getToken();
   
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
+    ...(options.headers as Record<string, string>),
   };
 
   // Add Authorization header if token exists
@@ -70,14 +70,14 @@ async function apiRequest<T>(
     }
     
     return {} as T;
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Authentication алдаа - дахин throw хийх
-    if (error.message === 'Authentication required') {
+    if (error instanceof Error && error.message === 'Authentication required') {
       throw error;
     }
 
     // Fetch алдаа (сүлжээний асуудал)
-    if (error instanceof TypeError && error.message.includes('fetch')) {
+    if (error instanceof TypeError && error.message?.includes('fetch')) {
       throw {
         message: 'Сүлжээний холболт алдаатай. Интернэт холболтоо шалгана уу.',
         status: 0,
@@ -91,10 +91,11 @@ async function apiRequest<T>(
     }
 
     // Бусад алдаанууд
+    const errorMessage = error instanceof Error ? error.message : 'Алдаа гарлаа. Дараа дахин оролдоно уу.';
     throw {
-      message: error?.message || 'Алдаа гарлаа. Дараа дахин оролдоно уу.',
+      message: errorMessage,
       status: 0,
-      details: { originalError: error?.message },
+      details: { originalError: errorMessage },
     } as ApiError;
   }
 }

@@ -23,7 +23,6 @@ const GeometricShape = ({ type = "", className = "", delay = 0, duration = 8 }) 
       duration: duration,
       repeat: Infinity,
       delay: delay,
-      ease: [0.42, 0, 0.58, 1],
     },
   };
 
@@ -150,7 +149,6 @@ const DashCardBG = ({ className = "fixed inset-0", asBackground = false }) => {
           transition={{
             duration: 10,
             repeat: Infinity,
-            ease: [0.42, 0, 0.58, 1],
           }}
         />
       )}
@@ -184,7 +182,6 @@ const DashCardBG = ({ className = "fixed inset-0", asBackground = false }) => {
               duration: PARTICLE_DURATIONS[index],
               repeat: Infinity,
               delay: PARTICLE_DELAYS[index],
-              ease: [0.42, 0, 0.58, 1],
             }}
           />
         ))}
